@@ -1,7 +1,5 @@
-import 'package:exercise/pages/profile.dart';
-import 'package:exercise/service/eventsprofile.dart';
-import 'package:flutter/material.dart';
 import 'package:exercise/service/listhome.dart';
+import 'package:flutter/material.dart';
 
 class Frame {
   static List<Map<String, String>> itemFrame = [
@@ -23,9 +21,9 @@ class Frame {
 class Home extends StatefulWidget {
   final List<Map<String, String>> itemFrame;
   final MyListData myListData;
-  
-  Home({required this.itemFrame, required this.myListData});
-  
+
+  const Home({super.key, required this.itemFrame, required this.myListData});
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -43,18 +41,20 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             GestureDetector(
-              onTap: ()async{
-                final result = await Navigator.pushNamed(context, '/profile');  
-                setState(() {
-                profileName = result as String;
-                });       
+              onTap: () async {
+                final result = await Navigator.pushNamed(context, '/profile');
+                if (result != null) {
+                  setState(() {
+                    profileName = result as String;
+                  });
+                }
               },
               child: Container(
                 margin: const EdgeInsets.only(right: 10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                     Row(
+                    Row(
                       children: [
                         const CircleAvatar(
                           backgroundImage: AssetImage('assets/avt.png'),
@@ -82,16 +82,20 @@ class _HomeState extends State<Home> {
                     ),
                     Row(
                       children: [
-                        FloatingActionButton.small(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
+                        ElevatedButton(
                           onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.white,
+                              shape: const CircleBorder()),
                           child: const Icon(Icons.search),
                         ),
-                        FloatingActionButton.small(
-                          backgroundColor: Colors.white,
-                          foregroundColor: Colors.black,
+                        ElevatedButton(
                           onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.black,
+                              backgroundColor: Colors.white,
+                              shape: const CircleBorder()),
                           child: const Icon(Icons.notifications),
                         )
                       ],
@@ -143,10 +147,9 @@ class _HomeState extends State<Home> {
               child: Container(
                 margin: const EdgeInsets.only(top: 1, left: 0),
                 child: TabBarExample(
-                  preachingData: ListHome1.getData(), 
-                  newsData: ListHome2.getData(), 
-                  communityData: ListHome3.getData()
-                  ),
+                    preachingData: ListHome1.getData(),
+                    newsData: ListHome2.getData(),
+                    communityData: ListHome3.getData()),
               ),
             )
           ],
@@ -227,26 +230,24 @@ class _TabBarExampleState extends State<TabBarExample>
           ],
         ),
         Expanded(
-          child: TabBarView(
-            controller: tabController,
-            children: [
-              SingleChildScrollView(
-                child: ListTab1(
-                  itemList: widget.preachingData.itemList,
-                  itemList2: widget.preachingData.itemList2,
-                ),
+          child: TabBarView(controller: tabController, children: [
+            SingleChildScrollView(
+              child: ListTab1(
+                itemList: widget.preachingData.itemList,
+                itemList2: widget.preachingData.itemList2,
               ),
-              SingleChildScrollView(
-                child: ListTab1(
-                  itemList: widget.newsData.itemList,
-                  itemList2: widget.newsData.itemList2,
-                ),
+            ),
+            SingleChildScrollView(
+              child: ListTab1(
+                itemList: widget.newsData.itemList,
+                itemList2: widget.newsData.itemList2,
               ),
-              SingleChildScrollView(
+            ),
+            SingleChildScrollView(
                 child: ListTab1(
-                  itemList: widget.communityData.itemList,
-                  itemList2: widget.communityData.itemList2,
-                ))
+              itemList: widget.communityData.itemList,
+              itemList2: widget.communityData.itemList2,
+            ))
           ]),
         )
       ],
